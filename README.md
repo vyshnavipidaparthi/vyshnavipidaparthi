@@ -1,11 +1,11 @@
 
 <div align="center">
 
-<img width="100%" src="https://capsule-render.vercel.app/api?type=waving&height=220&text=vyshnavi%20pidaparthi&desc=Passionate%20about%20building%20secure%2C%20scalable%2C%20and%20intelligent%20digital%20solutions%20by%20combining%20AWS%20Cloud%2C%20MERN%20Stack%2C%20Artificial%20Intelligence%2C%20Machine%20Learning%2C%20and&fontSize=48"/>
+<img width="100%" src="https://capsule-render.vercel.app/api?type=waving&height=220&text=vyshnavi%20pidaparthi&desc=GitHub%20Developer&fontSize=48"/>
 
 # vyshnavi pidaparthi
 
-Passionate about building secure, scalable, and intelligent digital solutions by combining AWS Cloud, MERN Stack, Artificial Intelligence, Machine Learning, and
+GitHub Developer
 
 </div>
 
@@ -160,6 +160,6 @@ src="https://raw.githubusercontent.com/vyshnavipidaparthi/vyshnavipidaparthi/out
 
 <div align="center">
 
-Generated automatically on **2026-06-18 17:24 UTC**
+Generated automatically on **2026-06-18 17:27 UTC**
 
 </div>
