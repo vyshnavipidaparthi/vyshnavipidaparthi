@@ -1,0 +1,80 @@
+{
+  "name": "Vyshnavi Pidaparthi",
+
+  "headline": "AWS Cloud • MERN Stack • AI/ML • Cybersecurity",
+
+  "tagline": "Building secure, scalable and intelligent solutions for tomorrow.",
+
+  "about": "Passionate about architecting cloud-native applications and intelligent software solutions using AWS Cloud, MERN Stack, Artificial Intelligence, Machine Learning, and Cybersecurity principles. Dedicated to continuous learning, innovation, and building technology that creates real-world impact.",
+
+  "location": "Hyderabad, India",
+
+  "portfolio": "https://your-portfolio.vercel.app",
+
+  "linkedin": "https://linkedin.com/in/your-linkedin-profile",
+
+  "email": "your-email@example.com",
+
+  "skills": [
+    "AWS",
+    "React",
+    "Node.js",
+    "Express",
+    "MongoDB",
+    "Python",
+    "Java",
+    "Docker",
+    "Git",
+    "Linux",
+    "Artificial Intelligence",
+    "Machine Learning",
+    "Cybersecurity"
+  ],
+
+  "currently_learning": [
+    "AWS Solutions Architecture",
+    "Cloud Security",
+    "Kubernetes",
+    "AI Agents",
+    "Large Language Models"
+  ],
+
+  "career_goals": [
+    "Become an AWS Certified Professional",
+    "Build enterprise-grade MERN applications",
+    "Develop production AI systems",
+    "Master cloud-native architectures",
+    "Advance cybersecurity expertise"
+  ],
+
+  "featured_projects": [
+    {
+      "name": "EduvateHub",
+      "description": "AI-powered cloud-native learning management platform.",
+      "tech": [
+        "React",
+        "Node.js",
+        "MongoDB",
+        "AWS"
+      ]
+    },
+    {
+      "name": "NextGen-Backend",
+      "description": "Microservices backend with scalable architecture.",
+      "tech": [
+        "Node.js",
+        "Express",
+        "MongoDB",
+        "Docker"
+      ]
+    },
+    {
+      "name": "Portfolio",
+      "description": "Personal portfolio showcasing projects and experience.",
+      "tech": [
+        "React",
+        "Vercel"
+      ]
+    }
+  ]
+}
