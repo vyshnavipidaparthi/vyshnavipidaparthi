@@ -1,102 +1,271 @@
-# ─────────────────────────────────────────────────────────────────────────────
-# update_readme.yml
-# Auto-generates a dynamic README.md from live GitHub API data.
-#
-# Triggers:
-#   - Every push to `main`
-#   - Every 6 hours via cron schedule
-#   - Manual via workflow_dispatch
-#
-# Portability: works on ANY GitHub profile repository without code changes.
-#   The GitHub username and repository are injected dynamically at runtime
-#   via GITHUB_REPOSITORY / github.actor — no hardcoding anywhere.
-# ─────────────────────────────────────────────────────────────────────────────
+```python
+#!/usr/bin/env python3
+"""
+Dynamic GitHub Profile README Generator
 
-name: Update README
+Features:
+- Zero hardcoded usernames
+- Automatically detects repository owner
+- Uses live GitHub REST API
+- Generates README.md dynamically
+- Works with GitHub Actions
+"""
 
-on:
-  push:
-    branches:
-      - main
+import os
+import requests
+from datetime import datetime, timezone
+from urllib.parse import quote
 
-  schedule:
-    # Runs at minute 0 of every 6th hour: 00:00, 06:00, 12:00, 18:00 UTC
-    - cron: "0 */6 * * *"
+GITHUB_API = "https://api.github.com"
 
-  workflow_dispatch:
-    # Allows manual trigger from the Actions tab — useful for testing
+# ------------------------------------------------------------------
+# Detect GitHub username dynamically
+# ------------------------------------------------------------------
 
-# ── Minimum required permissions ─────────────────────────────────────────────
-# `contents: write` is required so the workflow can commit README.md back.
-# All other permissions default to `none` (principle of least privilege).
-permissions:
-  contents: write
+repository = os.getenv("GITHUB_REPOSITORY", "")
 
-jobs:
-  update-readme:
-    name: Generate and Commit README
-    runs-on: ubuntu-latest
+if "/" not in repository:
+    raise RuntimeError(
+        "GITHUB_REPOSITORY environment variable is missing."
+    )
 
-    steps:
+USERNAME = repository.split("/")[0]
 
-      # ── 1. Checkout ──────────────────────────────────────────────────────
-      # fetch-depth: 0  →  full history, so `git diff` and `git log` work
-      #                    correctly and the push won't be rejected.
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+TOKEN = os.getenv("GITHUB_TOKEN")
 
-      # ── 2. Python setup ───────────────────────────────────────────────────
-      - name: Set up Python 3.11
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
+if not TOKEN:
+    raise RuntimeError(
+        "GITHUB_TOKEN environment variable not found."
+    )
 
-      # ── 3. Install dependencies ───────────────────────────────────────────
-      # Only `requests` is required by generate_readme.py.
-      # `--no-cache-dir` keeps the runner image clean.
-      - name: Install Python dependencies
-        run: pip install --no-cache-dir requests
+HEADERS = {
+    "Authorization": f"Bearer {TOKEN}",
+    "Accept": "application/vnd.github+json",
+}
 
-      # ── 4. Generate README ────────────────────────────────────────────────
-      # Why GITHUB_TOKEN instead of PAT_TOKEN?
-      #   The script only reads public GitHub API data for the same account
-      #   and writes one file back to the same repository.  The built-in
-      #   GITHUB_TOKEN has exactly those permissions when `contents: write`
-      #   is set above — no PAT is needed.
-      #
-      #   A PAT would only be necessary if the script needed to:
-      #     • access private repos belonging to another user/org, OR
-      #     • trigger downstream workflows in other repositories.
-      #
-      # GITHUB_REPOSITORY is injected so generate_readme.py can derive the
-      # username without any hardcoded value (see Recommendations section).
-      - name: Generate README.md
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_REPOSITORY: ${{ github.repository }}
-        run: python generate_readme.py
 
-      # ── 5. Commit & push (only when README actually changed) ─────────────
-      # Strategy:
-      #   a) Configure a bot identity for the commit author.
-      #   b) Stage only README.md.
-      #   c) Check `git diff --cached` — exit 0 (no diff) skips commit/push.
-      #   d) Append `[skip ci]` to prevent the commit from re-triggering
-      #      this workflow (infinite loop guard).
-      - name: Commit and push if README changed
-        run: |
-          git config user.name  "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
+# ------------------------------------------------------------------
+# Helper
+# ------------------------------------------------------------------
 
-          git add README.md
+def github_get(endpoint: str):
+    response = requests.get(
+        f"{GITHUB_API}{endpoint}",
+        headers=HEADERS,
+        timeout=30,
+    )
 
-          # If nothing changed, exit cleanly without committing
-          if git diff --cached --quiet; then
-            echo "✅ README.md is already up-to-date. Nothing to commit."
-            exit 0
-          fi
+    response.raise_for_status()
 
-          git commit -m "chore: auto-update README [skip ci]"
-          git push
+    return response.json()
+
+
+# ------------------------------------------------------------------
+# User Profile
+# ------------------------------------------------------------------
+
+print("Fetching profile...")
+
+user = github_get(f"/users/{USERNAME}")
+
+name = user.get("name") or USERNAME
+bio = user.get("bio") or "GitHub Developer"
+location = user.get("location") or "Unknown"
+
+blog = user.get("blog") or ""
+
+if blog and not blog.startswith("http"):
+    blog = "https://" + blog
+
+avatar = user.get("avatar_url")
+
+followers = user.get("followers", 0)
+following = user.get("following", 0)
+
+public_repos = user.get("public_repos", 0)
+
+created = user.get("created_at", "")[:10]
+
+# ------------------------------------------------------------------
+# Repositories
+# ------------------------------------------------------------------
+
+print("Fetching repositories...")
+
+repos = github_get(
+    f"/users/{USERNAME}/repos?per_page=100&type=owner&sort=updated"
+)
+
+repos = [r for r in repos if not r["fork"]]
+
+total_stars = sum(r["stargazers_count"] for r in repos)
+total_forks = sum(r["forks_count"] for r in repos)
+
+top_repos = sorted(
+    repos,
+    key=lambda r: r["stargazers_count"],
+    reverse=True
+)[:6]
+
+# ------------------------------------------------------------------
+# Languages
+# ------------------------------------------------------------------
+
+language_count = {}
+
+for repo in repos:
+
+    lang = repo.get("language")
+
+    if not lang:
+        continue
+
+    language_count[lang] = language_count.get(lang, 0) + 1
+
+top_languages = sorted(
+    language_count.items(),
+    key=lambda x: x[1],
+    reverse=True
+)
+
+# ------------------------------------------------------------------
+# README
+# ------------------------------------------------------------------
+
+generated = datetime.now(
+    timezone.utc
+).strftime("%Y-%m-%d %H:%M UTC")
+
+subtitle = quote(bio)
+
+markdown = f"""
+<div align="center">
+
+<img width="100%" src="https://capsule-render.vercel.app/api?type=waving&height=220&text={quote(name)}&desc={subtitle}&fontSize=48"/>
+
+# {name}
+
+{bio}
+
+</div>
+
+---
+
+## 👤 Profile
+
+- **Username:** `{USERNAME}`
+- **Location:** {location}
+- **Followers:** {followers}
+- **Following:** {following}
+- **Public Repositories:** {public_repos}
+- **GitHub Member Since:** {created}
+
+{"- **Portfolio:** " + blog if blog else ""}
+
+---
+
+## 📊 GitHub Stats
+
+<p align="center">
+
+<img height="170" src="https://github-readme-stats.vercel.app/api?username={USERNAME}&show_icons=true&theme=github_dark"/>
+
+<img height="170" src="https://github-readme-stats.vercel.app/api/top-langs/?username={USERNAME}&layout=compact&theme=github_dark"/>
+
+</p>
+
+---
+
+## 🔥 GitHub Streak
+
+<p align="center">
+
+<img src="https://streak-stats.demolab.com?user={USERNAME}&theme=dark"/>
+
+</p>
+
+---
+
+## 📈 Contribution Graph
+
+<p align="center">
+
+<img src="https://github-readme-activity-graph.vercel.app/graph?username={USERNAME}&theme=github-dark"/>
+
+</p>
+
+---
+
+## 🚀 Top Repositories
+
+"""
+
+for repo in top_repos:
+
+    markdown += f"""
+### [{repo['name']}]({repo['html_url']})
+
+{repo.get('description') or 'No description provided.'}
+
+⭐ Stars: {repo['stargazers_count']}
+
+🍴 Forks: {repo['forks_count']}
+
+Language: `{repo.get('language') or 'Unknown'}`
+"""
+
+markdown += "\n---\n"
+
+markdown += "## 🛠️ Top Languages\n\n"
+
+for lang, count in top_languages:
+
+    markdown += f"- {lang} ({count} repositories)\n"
+
+markdown += f"""
+
+---
+
+## 📊 Summary
+
+| Metric | Value |
+|----------|------:|
+| Public Repositories | {public_repos} |
+| Total Stars | {total_stars} |
+| Total Forks | {total_forks} |
+| Followers | {followers} |
+| Following | {following} |
+
+---
+
+## 🐍 Contribution Snake
+
+<picture>
+
+<source
+media="(prefers-color-scheme: dark)"
+srcset="https://raw.githubusercontent.com/{USERNAME}/{USERNAME}/output/github-snake-dark.svg">
+
+<img
+src="https://raw.githubusercontent.com/{USERNAME}/{USERNAME}/output/github-snake.svg">
+
+</picture>
+
+---
+
+<div align="center">
+
+Generated automatically on **{generated}**
+
+</div>
+"""
+
+with open(
+    "README.md",
+    "w",
+    encoding="utf-8",
+) as f:
+    f.write(markdown)
+
+print("README.md generated successfully.")
+```
