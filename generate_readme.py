@@ -10,11 +10,27 @@ Features
   • Keyword-based repo classifier (AI / ML / Full-Stack / Other)
   • Visually premium Markdown with capsule banners, stat widgets,
     contribution snake, streak card, and activity graph
+  • Premium "Connect With Me" badge row — LinkedIn, X/Twitter, Instagram,
+    YouTube, Medium, Dev.to, Discord, Telegram, Stack Overflow, Portfolio,
+    Email — each badge only renders when a value is actually available
   • Idempotent — exits 0 and skips write when README is unchanged
 
 Environment variables (set by GitHub Actions)
   GITHUB_TOKEN       required — actions token or PAT
   GITHUB_REPOSITORY  required — "owner/repo" format
+
+  Optional — set as repo/org Variables to light up extra social badges.
+  X/Twitter is auto-detected from the GitHub profile's twitter_username
+  field, so TWITTER_URL only needs to be set as a manual override.
+  LINKEDIN_URL        e.g. https://www.linkedin.com/in/yourname
+  TWITTER_URL         e.g. https://x.com/yourhandle
+  INSTAGRAM_URL       e.g. https://instagram.com/yourhandle
+  YOUTUBE_URL         e.g. https://youtube.com/@yourchannel
+  MEDIUM_URL          e.g. https://medium.com/@yourhandle
+  DEVTO_URL           e.g. https://dev.to/yourhandle
+  DISCORD_URL         e.g. https://discord.gg/yourinvite
+  TELEGRAM_URL        e.g. https://t.me/yourhandle
+  STACKOVERFLOW_URL   e.g. https://stackoverflow.com/users/123/yourname
 """
 
 from __future__ import annotations
@@ -72,6 +88,11 @@ def _require_env(name: str) -> str:
         log.critical(f"Required environment variable '{name}' is missing or empty.")
         sys.exit(1)
     return value
+
+
+def _optional_env(name: str) -> str:
+    """Non-fatal lookup for optional social/profile links."""
+    return os.environ.get(name, "").strip()
 
 
 _raw_repo = _require_env("GITHUB_REPOSITORY")   # "owner/repo"
@@ -315,6 +336,15 @@ class ProfileData:
     location:     str
     blog:         str
     email:        str
+    twitter:      str
+    linkedin:     str
+    instagram:    str
+    youtube:      str
+    medium:       str
+    devto:        str
+    discord:      str
+    telegram:     str
+    stackoverflow: str
     avatar:       str
     created_at:   str
     # counts
@@ -349,6 +379,20 @@ def assemble_data() -> ProfileData:
     if blog and not blog.startswith("http"):
         blog = "https://" + blog
 
+    # Social links — Twitter/X is auto-detected from the GitHub profile field;
+    # everything else is opt-in via repo/org Variables, so nothing is ever
+    # hardcoded and badges simply don't render when a value isn't set.
+    twitter_handle = (profile.get("twitter_username") or "").strip()
+    twitter        = f"https://twitter.com/{twitter_handle}" if twitter_handle else _optional_env("TWITTER_URL")
+    linkedin       = _optional_env("LINKEDIN_URL")
+    instagram      = _optional_env("INSTAGRAM_URL")
+    youtube        = _optional_env("YOUTUBE_URL")
+    medium         = _optional_env("MEDIUM_URL")
+    devto          = _optional_env("DEVTO_URL")
+    discord        = _optional_env("DISCORD_URL")
+    telegram       = _optional_env("TELEGRAM_URL")
+    stackoverflow  = _optional_env("STACKOVERFLOW_URL")
+
     # Language frequency map
     lang_freq: dict[str, int] = {}
     for r in repos:
@@ -379,6 +423,15 @@ def assemble_data() -> ProfileData:
         location     = profile.get("location") or "Earth",
         blog         = blog,
         email        = profile.get("email") or "",
+        twitter      = twitter,
+        linkedin     = linkedin,
+        instagram    = instagram,
+        youtube      = youtube,
+        medium       = medium,
+        devto        = devto,
+        discord      = discord,
+        telegram     = telegram,
+        stackoverflow= stackoverflow,
         avatar       = profile.get("avatar_url") or "",
         created_at   = profile.get("created_at", "")[:10],
         followers    = profile.get("followers", 0),
@@ -414,6 +467,55 @@ def _shield(label: str, value: str, color: str = "7c3aed") -> str:
     enc_label = quote(label)
     enc_value = quote(str(value))
     return f"![{label}](https://img.shields.io/badge/{enc_label}-{enc_value}-{color}?style=flat-square)"
+
+
+# (label, shields.io logo id, brand color) — one source of truth per platform
+_SOCIAL_META: dict[str, tuple[str, str, str]] = {
+    "linkedin":      ("LinkedIn",       "linkedin",      "0A66C2"),
+    "twitter":       ("X",              "x",             "000000"),
+    "instagram":     ("Instagram",      "instagram",     "E4405F"),
+    "youtube":       ("YouTube",        "youtube",       "FF0000"),
+    "medium":        ("Medium",         "medium",        "12100E"),
+    "devto":         ("Dev.to",         "devdotto",      "0A0A0A"),
+    "discord":       ("Discord",        "discord",       "5865F2"),
+    "telegram":      ("Telegram",       "telegram",      "26A5E4"),
+    "stackoverflow": ("Stack Overflow", "stackoverflow", "F58025"),
+}
+
+
+def _connect_badges(d: "ProfileData") -> str:
+    """
+    Premium 'for-the-badge' row for every social link that's actually
+    populated. GitHub always renders; everything else only appears once
+    the corresponding field on ProfileData is non-empty, so the row scales
+    from a single badge to a dozen without ever showing a broken link.
+    """
+    badges: list[str] = [
+        f"[![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)]"
+        f"(https://github.com/{d.username})"
+    ]
+
+    for key, (label, logo, color) in _SOCIAL_META.items():
+        url = getattr(d, key, "")
+        if not url:
+            continue
+        badges.append(
+            f"[![{label}](https://img.shields.io/badge/{quote(label)}-{color}"
+            f"?style=for-the-badge&logo={logo}&logoColor=white)]({url})"
+        )
+
+    if d.blog:
+        badges.append(
+            f"[![Portfolio](https://img.shields.io/badge/Portfolio-7c3aed?style=for-the-badge&logo=vercel&logoColor=white)]"
+            f"({d.blog})"
+        )
+    if d.email:
+        badges.append(
+            f"[![Email](https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white)]"
+            f"(mailto:{d.email})"
+        )
+
+    return "\n".join(badges)
 
 
 def _pin_card(repo_name: str, username: str) -> str:
@@ -557,22 +659,9 @@ def render_readme(d: ProfileData) -> str:
         f"| {label} | **{value}** |" for label, value in stat_rows
     )
 
-    # Social links row
-    social_parts: list[str] = [
-        f"[![GitHub](https://img.shields.io/badge/GitHub-{u}-181717?style=flat-square&logo=github)](https://github.com/{u})",
-    ]
-    if d.blog:
-        social_parts.append(
-            f"[![Portfolio](https://img.shields.io/badge/Portfolio-{quote(blog_display)}-7c3aed?style=flat-square&logo=vercel)](https://github.com/{u})"
-            if not d.blog else
-            f"[![Portfolio](https://img.shields.io/badge/Portfolio-website-7c3aed?style=flat-square&logo=vercel)]({d.blog})"
-        )
-    if d.email:
-        social_parts.append(
-            f"[![Email](https://img.shields.io/badge/Email-contact-D14836?style=flat-square&logo=gmail)]"
-            f"(mailto:{d.email})"
-        )
-    social_badges = "\n".join(social_parts)
+    # Premium "Connect With Me" badge row — GitHub plus any social link
+    # the user has actually provided (auto-detected or via env var).
+    connect_badges = _connect_badges(d)
 
     readme = f"""\
 <div align="center">
@@ -611,7 +700,13 @@ def render_readme(d: ProfileData) -> str:
 
 <br/>
 
-{social_badges}
+## 🔗 Connect With Me
+
+<div align="center">
+
+{connect_badges}
+
+</div>
 
 ---
 
