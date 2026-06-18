@@ -1,4 +1,3 @@
-```python
 #!/usr/bin/env python3
 """
 Dynamic GitHub Profile README Generator
@@ -268,4 +267,4 @@ with open(
     f.write(markdown)
 
 print("README.md generated successfully.")
-```
+
