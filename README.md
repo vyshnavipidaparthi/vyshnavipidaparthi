@@ -3,12 +3,12 @@
 <!-- ═══ Hero Banner ═══════════════════════════════════════════════════════ -->
 <img
   width="100%"
-  src="https://capsule-render.vercel.app/api?type=waving&color=0:0f0c29,40:302b63,100:24243e&height=230&section=header&text=vyshnavi%20pidaparthi&fontSize=58&fontColor=ffffff&animation=fadeIn&fontAlignY=36&desc=Passionate%20Software%20Developer%20%7C%20MERN%20Stack%20%7C%20AWS%20Cloud%20%7C%20AI/&descSize=18&descAlignY=56&descColor=a78bfa"
+  src="https://capsule-render.vercel.app/api?type=waving&color=0:0f0c29,40:302b63,100:24243e&height=230&section=header&text=vyshnavi%20pidaparthi&fontSize=58&fontColor=ffffff&animation=fadeIn&fontAlignY=36&desc=Passionate%20Software%20Developer%20%7C%20MERN%20Stack%20%7C%20AWS%20Cloud%20%7C%20AIM&descSize=18&descAlignY=56&descColor=a78bfa"
   alt="vyshnavi pidaparthi"
 />
 
 <!-- ═══ Animated intro line ════════════════════════════════════════════════ -->
-[![Typing SVG](https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=600&size=18&duration=3200&pause=1000&color=A78BFA&center=true&vCenter=true&width=700&height=45&lines=Hi%2C%20I%27m%20vyshnavi%20pidaparthi%20%F0%9F%91%8B;14%20public%20repos%20%C2%B7%200%20%E2%AD%90%20earned;84%20contributions%20this%20year;Shipping%20real%20products%20%C2%B7%20Learning%20every%20day)](https://github.com/vyshnavipidaparthi)
+[![Typing SVG](https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=600&size=18&duration=3200&pause=1000&color=A78BFA&center=true&vCenter=true&width=700&height=45&lines=Hi%2C%20I%27m%20vyshnavi%20pidaparthi%20%F0%9F%91%8B;14%20public%20repos%20%C2%B7%200%20%E2%AD%90%20earned;85%20contributions%20this%20year;Shipping%20real%20products%20%C2%B7%20Learning%20every%20day)](https://github.com/vyshnavipidaparthi)
 
 <br/>
 
@@ -23,7 +23,7 @@
 
 ## 👤 About Me
 
-Passionate Software Developer | MERN Stack | AWS Cloud | AI/ML | Cybersecurity
+Passionate Software Developer | MERN Stack | AWS Cloud | AIML | Cybersecurity
 Building scalable, secure, and intelligent applications while continuously 
 
 | | |
@@ -35,7 +35,13 @@ Building scalable, secure, and intelligent applications while continuously
 
 <br/>
 
-[![GitHub](https://img.shields.io/badge/GitHub-vyshnavipidaparthi-181717?style=flat-square&logo=github)](https://github.com/vyshnavipidaparthi)
+## 🔗 Connect With Me
+
+<div align="center">
+
+[![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/vyshnavipidaparthi)
+
+</div>
 
 ---
 
@@ -50,7 +56,7 @@ github_user:
   public_repos   : 14
 
 activity:
-  total_contributions : 84
+  total_contributions : 85
   merged_pull_requests: 0
   issues_opened       : 0
 
@@ -68,7 +74,7 @@ network:
   followers : 0
   following : 0
 
-last_updated: "2026-06-18 17:36 UTC"
+last_updated: "2026-06-18 17:44 UTC"
 ```
 
 ---
@@ -172,7 +178,7 @@ last_updated: "2026-06-18 17:36 UTC"
 | Total Forks | **0** |
 | Merged Pull Requests | **0** |
 | Issues Opened | **0** |
-| Total Contributions | **84** |
+| Total Contributions | **85** |
 | Followers | **0** |
 | Following | **0** |
 | Member Since | **2023-02-16** |
@@ -207,7 +213,7 @@ last_updated: "2026-06-18 17:36 UTC"
   alt="footer"
 />
 
-*🤖 Auto-generated · Last updated **2026-06-18 17:36 UTC***
+*🤖 Auto-generated · Last updated **2026-06-18 17:44 UTC***
 
 **[vyshnavi pidaparthi](https://github.com/vyshnavipidaparthi)**
 
