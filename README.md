@@ -8,7 +8,7 @@
 />
 
 <!-- ═══ Animated intro line ════════════════════════════════════════════════ -->
-[![Typing SVG](https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=600&size=18&duration=3200&pause=1000&color=A78BFA&center=true&vCenter=true&width=700&height=45&lines=Hi%2C%20I%27m%20vyshnavi%20pidaparthi%20%F0%9F%91%8B;14%20public%20repos%20%C2%B7%200%20%E2%AD%90%20earned;85%20contributions%20this%20year;Shipping%20real%20products%20%C2%B7%20Learning%20every%20day)](https://github.com/vyshnavipidaparthi)
+[![Typing SVG](https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=600&size=18&duration=3200&pause=1000&color=A78BFA&center=true&vCenter=true&width=700&height=45&lines=Hi%2C%20I%27m%20vyshnavi%20pidaparthi%20%F0%9F%91%8B;14%20public%20repos%20%C2%B7%200%20%E2%AD%90%20earned;0%20contributions%20this%20year;Shipping%20real%20products%20%C2%B7%20Learning%20every%20day)](https://github.com/vyshnavipidaparthi)
 
 <br/>
 
@@ -56,7 +56,7 @@ github_user:
   public_repos   : 14
 
 activity:
-  total_contributions : 85
+  total_contributions : 0
   merged_pull_requests: 0
   issues_opened       : 0
 
@@ -74,7 +74,7 @@ network:
   followers : 0
   following : 0
 
-last_updated: "2026-06-28 03:58 UTC"
+last_updated: "2026-06-28 08:54 UTC"
 ```
 
 ---
@@ -178,7 +178,7 @@ last_updated: "2026-06-28 03:58 UTC"
 | Total Forks | **0** |
 | Merged Pull Requests | **0** |
 | Issues Opened | **0** |
-| Total Contributions | **85** |
+| Total Contributions | **0** |
 | Followers | **0** |
 | Following | **0** |
 | Member Since | **2023-02-16** |
@@ -213,7 +213,7 @@ last_updated: "2026-06-28 03:58 UTC"
   alt="footer"
 />
 
-*🤖 Auto-generated · Last updated **2026-06-28 03:58 UTC***
+*🤖 Auto-generated · Last updated **2026-06-28 08:54 UTC***
 
 **[vyshnavi pidaparthi](https://github.com/vyshnavipidaparthi)**
 
