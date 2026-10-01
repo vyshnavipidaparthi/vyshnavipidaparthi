@@ -8,7 +8,7 @@
 />
 
 <!-- ═══ Animated intro line ════════════════════════════════════════════════ -->
-[![Typing SVG](https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=600&size=18&duration=3200&pause=1000&color=A78BFA&center=true&vCenter=true&width=700&height=45&lines=Hi%2C%20I%27m%20vyshnavi%20pidaparthi%20%F0%9F%91%8B;14%20public%20repos%20%C2%B7%200%20%E2%AD%90%20earned;0%20contributions%20this%20year;Shipping%20real%20products%20%C2%B7%20Learning%20every%20day)](https://github.com/vyshnavipidaparthi)
+[![Typing SVG](https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=600&size=18&duration=3200&pause=1000&color=A78BFA&center=true&vCenter=true&width=700&height=45&lines=Hi%2C%20I%27m%20vyshnavi%20pidaparthi%20%F0%9F%91%8B;16%20public%20repos%20%C2%B7%200%20%E2%AD%90%20earned;0%20contributions%20this%20year;Shipping%20real%20products%20%C2%B7%20Learning%20every%20day)](https://github.com/vyshnavipidaparthi)
 
 <br/>
 
@@ -53,7 +53,7 @@ github_user:
   username       : "vyshnavipidaparthi"
   location       : "Earth"
   member_since   : 2023-02-16
-  public_repos   : 14
+  public_repos   : 16
 
 activity:
   total_contributions : 0
@@ -66,15 +66,15 @@ repository_stats:
   ai_and_apps  : 0
   ml_projects  : 5
   fullstack    : 1
-  other        : 8
+  other        : 10
 
-top_languages: [Python, HTML, HCL, Jupyter Notebook, Java]
+top_languages: [HTML, Python, HCL, Jupyter Notebook, Java]
 
 network:
   followers : 0
   following : 0
 
-last_updated: "2026-10-01 12:37 UTC"
+last_updated: "2026-10-01 22:25 UTC"
 ```
 
 ---
@@ -161,8 +161,8 @@ last_updated: "2026-10-01 12:37 UTC"
 
 ## 🛠️ Tech Stack
 
-![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
 ![HTML](https://img.shields.io/badge/HTML-E34F26?style=for-the-badge&logo=html&logoColor=white)
+![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
 ![HCL](https://img.shields.io/badge/HCL-555555?style=for-the-badge&logo=hcl&logoColor=white)
 ![Jupyter Notebook](https://img.shields.io/badge/Jupyter%20Notebook-555555?style=for-the-badge&logo=jupyternotebook&logoColor=white)
 ![Java](https://img.shields.io/badge/Java-007396?style=for-the-badge&logo=java&logoColor=white)
@@ -173,7 +173,7 @@ last_updated: "2026-10-01 12:37 UTC"
 
 | Metric | Value |
 |:-------|------:|
-| Public Repositories | **14** |
+| Public Repositories | **16** |
 | Total Stars Earned | **0** |
 | Total Forks | **0** |
 | Merged Pull Requests | **0** |
@@ -213,7 +213,7 @@ last_updated: "2026-10-01 12:37 UTC"
   alt="footer"
 />
 
-*🤖 Auto-generated · Last updated **2026-10-01 12:37 UTC***
+*🤖 Auto-generated · Last updated **2026-10-01 22:25 UTC***
 
 **[vyshnavi pidaparthi](https://github.com/vyshnavipidaparthi)**
 
